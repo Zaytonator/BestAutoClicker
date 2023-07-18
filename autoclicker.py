@@ -46,7 +46,10 @@ class AutoclickerGUI(tk.Tk):
         self.file_menu.add_command(label="Import Settings", command=self.import_settings)
         self.file_menu.add_command(label="Export Settings", command=self.export_settings)
         self.menu.add_cascade(label="File", menu=self.file_menu)
-        self.menu.configure(bg='red')
+    
+        self.file_menu = tk.Menu(self.menu, tearoff=False)
+        self.menu.add_cascade(label="Settings", menu=self.file_menu)
+
 
         self.click_menu = tk.Menu(self.menu, tearoff=False)
         self.click_menu.add_checkbutton(label="Middle Click", variable=self.middle_button_click_var)
