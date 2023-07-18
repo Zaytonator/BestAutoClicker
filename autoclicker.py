@@ -10,7 +10,7 @@ class AutoclickerGUI(tk.Tk):
         tk.Tk.__init__(self)
         self.title("Autoclicker")
         self.toaster = ToastNotifier()
-        
+        self.configure(bg='#050A30')
     
         self.cps_label = tk.Label(self, text="CPS (Clicks per Second):")
         self.cps_entry = tk.Entry(self)
