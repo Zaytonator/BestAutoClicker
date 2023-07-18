@@ -4,9 +4,12 @@ import time
 import keyboard
 from threading import Thread
 from win10toast import ToastNotifier
+import tkinter.font as font
+
 
 class AutoclickerGUI(tk.Tk):
     def __init__(self):
+        
         tk.Tk.__init__(self)
         self.title("Autoclicker")
         self.toaster = ToastNotifier()
@@ -26,14 +29,12 @@ class AutoclickerGUI(tk.Tk):
         self.start_button.configure(bg='#0E86D4')
         self.start_button.configure(fg='#D4F1F4')
         self.stop_button.configure(bg='#0E86D4')
-        self.stop_button.configure(fg='#D4F1F4')
-        
 
 
 
 
 
-        self.cps_label.grid(row=0, column=0, padx=8, pady=5, sticky=tk.W)
+        self.cps_label.grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
         self.cps_entry.grid(row=0, column=1, padx=5, pady=5)
         self.clicks_label.grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
         self.clicks_entry.grid(row=1, column=1, padx=5, pady=5)
