@@ -29,6 +29,9 @@ class AutoclickerGUI(tk.Tk):
         self.start_button.configure(bg='#0E86D4')
         self.start_button.configure(fg='#D4F1F4')
         self.stop_button.configure(bg='#0E86D4')
+        self.cps_entry.configure(bg='#a2d2ff')
+        self.clicks_entry.configure(bg='#a2d2ff')
+        self.clicks_entry.configure(fg='#a2d2ff')
 
 
 
