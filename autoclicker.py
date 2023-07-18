@@ -18,10 +18,16 @@ class AutoclickerGUI(tk.Tk):
             "dark_blue": {"bg": "#001C30", "label_bg": "#176B87", "button_bg": "#64CCC5", "fg": "white"},
             "light_blue": {"bg": "#DAFFFB", "label_bg": "#64CCC5", "button_bg": "#176B87", "fg": "black"},
             "candy": {"bg": "#40128B", "label_bg": "#9336B4", "button_bg": "#DD58D6", "fg": "#FFE79B"},
-            "icecream": {"bg": "#FF55BB", "label_bg": "#FFD3A3", "button_bg": "#FCFFB2", "fg": "#B6EAFA"},
+            "icecream": {"bg": "#FF55BB", "label_bg": "#FFD3A3", "button_bg": "#FCFFB2", "fg": "#1D5D9B"},
             "midnight": {"bg": "#0C134F", "label_bg": "#1D267D", "button_bg": "#5C469C", "fg": "#D4ADFC"},
-            "ocean": {"bg": "#F6F1F1", "label_bg": "#AFD3E2", "button_bg": "#19A7CE", "fg": "#146C94"}
-        }
+            "ocean": {"bg": "#F6F1F1", "label_bg": "#AFD3E2", "button_bg": "#19A7CE", "fg": "#146C94"},
+            "End": {"bg": "#191825", "label_bg": "#865DFF", "button_bg": "#E384FF", "fg": "#FFA3FD"},
+            "Nether": {"bg": "#F56EB3", "label_bg": "#CB1C8D", "button_bg": "#7F167F", "fg": "#460C68"},
+            "Night Sky": {"bg": "#1D1CE5", "label_bg": "#4649FF", "button_bg": "#7978FF", "fg": "#C47AFF"},
+            "Simplistic": {"bg": "#072227", "label_bg": "#35858B", "button_bg": "#4FBDBA", "fg": "#AEFEFF"},
+            "Jungle": {"bg": "#164B60", "label_bg": "#1B6B93", "button_bg": "#4FC0D0", "fg": "#A2FF86"},
+            "Icy": {"bg": "#BEDCFA", "label_bg": "#98ACF8", "button_bg": "#B088F9", "fg": "#DA9FF9"},
+}
 
         # Variables
         self.Cps = tk.DoubleVar()
@@ -40,6 +46,7 @@ class AutoclickerGUI(tk.Tk):
         self.file_menu.add_command(label="Import Settings", command=self.import_settings)
         self.file_menu.add_command(label="Export Settings", command=self.export_settings)
         self.menu.add_cascade(label="File", menu=self.file_menu)
+        self.menu.configure(bg='red')
 
         self.click_menu = tk.Menu(self.menu, tearoff=False)
         self.click_menu.add_checkbutton(label="Middle Click", variable=self.middle_button_click_var)
@@ -53,6 +60,13 @@ class AutoclickerGUI(tk.Tk):
         self.theme_menu.add_radiobutton(label="Icecream", variable=self.theme, value="icecream", command=self.update_theme)
         self.theme_menu.add_radiobutton(label="Midnight", variable=self.theme, value="midnight", command=self.update_theme)
         self.theme_menu.add_radiobutton(label="Ocean", variable=self.theme, value="ocean", command=self.update_theme)
+        self.theme_menu.add_radiobutton(label="End", variable=self.theme, value="End", command=self.update_theme)
+        self.theme_menu.add_radiobutton(label="Nether", variable=self.theme, value="Nether", command=self.update_theme)
+        self.theme_menu.add_radiobutton(label="Night Sky", variable=self.theme, value="Night Sky", command=self.update_theme)
+        self.theme_menu.add_radiobutton(label="Simplistic", variable=self.theme, value="Simplistic", command=self.update_theme)
+        self.theme_menu.add_radiobutton(label="Jungle", variable=self.theme, value="Jungle", command=self.update_theme)
+        self.theme_menu.add_radiobutton(label="Icy", variable=self.theme, value="Icy", command=self.update_theme)
+
         self.menu.add_cascade(label="Themes", menu=self.theme_menu)
 
         self.config(menu=self.menu)
@@ -81,8 +95,12 @@ class AutoclickerGUI(tk.Tk):
             "fg": self.color_palettes[self.theme.get()]["fg"],
             "font": font.Font(family="Arial", size=12),
             "relief": "raised"
+
+        
         }
 
+
+        self.iconbitmap("Assets/Icon.ico")
     
 
         self.autoclicker_thread = None
@@ -111,7 +129,7 @@ class AutoclickerGUI(tk.Tk):
         self.start_button.config(state=tk.DISABLED)
         self.stop_button.config(state=tk.NORMAL)
 
-        self.show_notification("Autoclicking will start in 5 seconds. Switch to the target window.")
+        self.show_notification("Autoclicking will start in 5 seconds. Switch to the target window. (this may take a second to start, please be patient)")
 
         self.autoclicker_thread = Thread(target=self.autoclicker)
         self.autoclicker_thread.start()
@@ -129,7 +147,7 @@ class AutoclickerGUI(tk.Tk):
             self.autoclicker_thread.join()
 
     def autoclicker(self):
-        self.show_notification("Autoclicking started.")
+        self.show_notification("Autoclicking started. (may take a second to start, please be patient)")
         time.sleep(5)
 
         for _ in range(self.num_clicks):
