@@ -11,13 +11,12 @@ class AutoclickerGUI(tk.Tk):
         self.title("Autoclicker")
         self.toaster = ToastNotifier()
     
-        self.cps_label = tk.Label(self, text="CPS (Clicks per Second):")
+        self.cps_label = tk.Label(self, text="Click Interval (Pause):")
         self.cps_entry = tk.Entry(self)
         self.clicks_label = tk.Label(self, text="Number of Clicks:")
         self.clicks_entry = tk.Entry(self)
         self.start_button = tk.Button(self, text="Start Autoclicker", command=self.start_autoclicker)
         self.stop_button = tk.Button(self, text="Stop Autoclicker", command=self.stop_autoclicker, state=tk.DISABLED)
-       
         #color for gui
         self.configure(bg='#003060')
         self.cps_label.configure(bg='#0E86D4')
@@ -34,7 +33,7 @@ class AutoclickerGUI(tk.Tk):
         self.clicks_entry.grid(row=1, column=1, padx=5, pady=5)
         self.start_button.grid(row=2, column=0, padx=5, pady=5, columnspan=2, sticky=tk.W+tk.E)
         self.stop_button.grid(row=3, column=0, padx=5, pady=5, columnspan=2, sticky=tk.W+tk.E)
-       
+
         self.Cps = 0
         self.num_clicks = 0
         self.autoclicker_thread = None
