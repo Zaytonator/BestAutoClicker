@@ -28,7 +28,6 @@ class AutoclickerGUI(tk.Tk):
         self.num_clicks = tk.IntVar()
         self.theme = tk.StringVar()
         self.theme.set("dark_blue")
-        self.cords = tk.StringVar()
         self.middle_button_click_var = tk.BooleanVar()
         self.middle_button_double_click_var = tk.BooleanVar()
         self.middle_button_click_var.set(False)
@@ -41,6 +40,11 @@ class AutoclickerGUI(tk.Tk):
         self.file_menu.add_command(label="Import Settings", command=self.import_settings)
         self.file_menu.add_command(label="Export Settings", command=self.export_settings)
         self.menu.add_cascade(label="File", menu=self.file_menu)
+
+        self.click_menu = tk.Menu(self.menu, tearoff=False)
+        self.click_menu.add_checkbutton(label="Middle Click", variable=self.middle_button_click_var)
+        self.click_menu.add_checkbutton(label="Double Click", variable=self.middle_button_double_click_var)
+        self.menu.add_cascade(label="Click Options", menu=self.click_menu)
 
         self.theme_menu = tk.Menu(self.menu, tearoff=False)
         self.theme_menu.add_radiobutton(label="Dark Blue", variable=self.theme, value="dark_blue", command=self.update_theme)
@@ -60,9 +64,6 @@ class AutoclickerGUI(tk.Tk):
         self.clicks_entry = tk.Entry(self, textvariable=self.num_clicks)
         self.start_button = tk.Button(self, text="Start Autoclicker", command=self.start_autoclicker)
         self.stop_button = tk.Button(self, text="Stop Autoclicker", command=self.stop_autoclicker, state=tk.DISABLED)
-        self.cords_label = tk.Label(self, text="Click Coordinates:")
-        self.cords_entry = tk.Entry(self, textvariable=self.cords)
-        self.click_button = tk.Button(self, text="Click on Screen", command=self.select_cords)
 
         # Set initial theme
         self.set_theme(self.theme.get())
@@ -73,9 +74,6 @@ class AutoclickerGUI(tk.Tk):
         self.clicks_entry.grid(row=1, column=1, padx=5, pady=5)
         self.start_button.grid(row=2, column=0, padx=5, pady=5, columnspan=2, sticky=tk.W+tk.E)
         self.stop_button.grid(row=3, column=0, padx=5, pady=5, columnspan=2, sticky=tk.W+tk.E)
-        self.cords_label.grid(row=4, column=0, padx=5, pady=5, sticky=tk.W)
-        self.cords_entry.grid(row=4, column=1, padx=5, pady=5, sticky=tk.W)
-        self.click_button.grid(row=5, column=0, padx=5, pady=5, columnspan=2, sticky=tk.W+tk.E)
 
         # Button Styles
         self.button_style = {
@@ -85,8 +83,7 @@ class AutoclickerGUI(tk.Tk):
             "relief": "raised"
         }
 
-        # Binding Window Maximize event
-        self.bind('<Configure>', self.window_resize_event)
+    
 
         self.autoclicker_thread = None
 
@@ -96,9 +93,8 @@ class AutoclickerGUI(tk.Tk):
         self.clicks_label.configure(bg=self.color_palettes[theme]["label_bg"], fg=self.color_palettes[theme]["fg"])
         self.start_button.configure(bg=self.color_palettes[theme]["button_bg"], fg=self.color_palettes[theme]["fg"])
         self.stop_button.configure(bg=self.color_palettes[theme]["button_bg"], fg=self.color_palettes[theme]["fg"])
-        self.cords_label.configure(bg=self.color_palettes[theme]["bg"], fg=self.color_palettes[theme]["fg"])
-        self.cords_entry.configure(bg=self.color_palettes[theme]["bg"], fg=self.color_palettes[theme]["fg"])
-        self.click_button.configure(bg=self.color_palettes[theme]["button_bg"], fg=self.color_palettes[theme]["fg"])
+        self.clicks_entry.configure(bg=self.color_palettes[theme]["button_bg"], fg=self.color_palettes[theme]["fg"])
+        self.cps_entry.configure(bg=self.color_palettes[theme]["button_bg"], fg=self.color_palettes[theme]["fg"])
 
     def update_theme(self):
         self.set_theme(self.theme.get())
@@ -145,29 +141,10 @@ class AutoclickerGUI(tk.Tk):
                 pyautogui.middleClick()
             elif self.middle_button_double_click_var.get():
                 pyautogui.doubleClick()
-            else:
-                click_cords = self.cords_entry.get().split(",")
-                if len(click_cords) == 2:
-                    try:
-                        x = int(click_cords[0].strip())
-                        y = int(click_cords[1].strip())
-                        pyautogui.click(x, y)
-                    except ValueError:
-                        self.show_notification("Invalid click coordinates.")
-                else:
-                    self.show_notification("Invalid click coordinates.")
 
             time.sleep(self.Cps)
         else:
             self.show_notification("Autoclicking completed.")
-
-    def select_cords(self):
-        self.hide_window()
-        self.show_notification("Select click coordinates on the screen.")
-        time.sleep(1)
-        cords = pyautogui.position()
-        self.cords.set(f"{cords.x}, {cords.y}")
-        self.show_window()
 
     def hide_window(self):
         self.withdraw()
@@ -181,7 +158,6 @@ class AutoclickerGUI(tk.Tk):
             "Cps": self.Cps.get(),
             "num_clicks": self.num_clicks.get(),
             "theme": self.theme.get(),
-            "cords": self.cords.get(),
             "middle_button_click": self.middle_button_click_var.get(),
             "middle_button_double_click": self.middle_button_double_click_var.get()
         }
@@ -205,7 +181,6 @@ class AutoclickerGUI(tk.Tk):
                 self.Cps.set(settings.get("Cps", 0))
                 self.num_clicks.set(settings.get("num_clicks", 0))
                 self.theme.set(settings.get("theme", "dark_blue"))
-                self.cords.set(settings.get("cords", ""))
                 self.middle_button_click_var.set(settings.get("middle_button_click", False))
                 self.middle_button_double_click_var.set(settings.get("middle_button_double_click", False))
 
@@ -220,7 +195,6 @@ class AutoclickerGUI(tk.Tk):
             "Cps": self.Cps.get(),
             "num_clicks": self.num_clicks.get(),
             "theme": self.theme.get(),
-            "cords": self.cords.get(),
             "middle_button_click": self.middle_button_click_var.get(),
             "middle_button_double_click": self.middle_button_double_click_var.get()
         }
