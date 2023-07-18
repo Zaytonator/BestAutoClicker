@@ -11,23 +11,29 @@ class AutoclickerGUI(tk.Tk):
         self.title("Autoclicker")
         self.toaster = ToastNotifier()
     
-        self.cps_label = tk.Label(self, text="Click Interval (Pause):")
+        self.cps_label = tk.Label(self, text="Click Interval:")
         self.cps_entry = tk.Entry(self)
-        self.clicks_label = tk.Label(self, text="Number of Clicks:")
+        self.clicks_label = tk.Label(self, text="Click Amount:")
         self.clicks_entry = tk.Entry(self)
         self.start_button = tk.Button(self, text="Start Autoclicker", command=self.start_autoclicker)
         self.stop_button = tk.Button(self, text="Stop Autoclicker", command=self.stop_autoclicker, state=tk.DISABLED)
         #color for gui
         self.configure(bg='#003060')
         self.cps_label.configure(bg='#0E86D4')
+        self.cps_label.configure(fg='#D4F1F4')
         self.clicks_label.configure(bg='#0E86D4')
+        self.clicks_label.configure(fg='#D4F1F4')
         self.start_button.configure(bg='#0E86D4')
+        self.start_button.configure(fg='#D4F1F4')
         self.stop_button.configure(bg='#0E86D4')
+        self.stop_button.configure(fg='#D4F1F4')
+        
 
 
 
 
-        self.cps_label.grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
+
+        self.cps_label.grid(row=0, column=0, padx=8, pady=5, sticky=tk.W)
         self.cps_entry.grid(row=0, column=1, padx=5, pady=5)
         self.clicks_label.grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
         self.clicks_entry.grid(row=1, column=1, padx=5, pady=5)
